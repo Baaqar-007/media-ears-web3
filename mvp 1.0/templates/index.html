@@ -1,0 +1,52 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emotion-Based Music Recommender</title>
+</head>
+<body>
+    <h2>How are you feeling?</h2>
+    <form method="POST">
+        <input name="text" type="text" placeholder="Enter how you feel..." size="50"/>
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if text %}
+        <h3>You said: "{{ text }}"</h3>
+        <p>Detected Emotion: <strong>{{ emotion }}</strong></p>
+        
+        <h4>Recommended Songs (Emotion-based):</h4>
+        <ul>
+            {% for song in emotion_songs %}
+                <li>
+                    <strong>{{ song.title }}</strong> by {{ song.artist }}<br>
+                    <a href="{{ song.youtube_url }}" target="_blank">Listen</a>
+                </li>
+            {% endfor %}
+        </ul>
+        
+        <h4>Recommended Songs (Lyrics-based):</h4>
+        <ul>
+            {% for song in lyrics_songs %}
+                <li>
+                    <strong>{{ song.title }}</strong> by {{ song.artist }}<br>
+                    <a href="{{ song.youtube_url }}" target="_blank">Listen</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if similar_songs %}
+        <h4>Similar Songs (From your history):</h4>
+        <ul>
+            {% for song in similar_songs %}
+                <li>
+                    <strong>{{ song.title }}</strong> by {{ song.artist }}<br>
+                    <a href="{{ song.youtube_url }}" target="_blank">Listen</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
