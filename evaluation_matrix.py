@@ -29,7 +29,7 @@ predicted_labels = np.random.choice(unique_emotions, 20)  # Emotions from recomm
 conf_matrix = confusion_matrix(true_labels, predicted_labels, labels=unique_emotions)
 
 # Plot confusion matrix
-plt.figure(figsize=(9, 8))
+plt.figure(figsize=(10, 8))
 sns.heatmap(conf_matrix, annot=True, fmt="d", xticklabels=unique_emotions, yticklabels=unique_emotions, cmap="Blues")
 plt.xlabel("Predicted Emotion")
 plt.ylabel("Actual Emotion")
