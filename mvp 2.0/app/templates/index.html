@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Media Ears - Emotion-Based Podcast Recommender</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎧 Media Ears</h1>
+    <p>Type how you're feeling and get podcast recommendations!</p>
+
+    <textarea id="userInput" placeholder="Describe your mood or what you're looking for..."></textarea>
+
+    <button onclick="getRecommendations()">Get Recommendations</button>
+
+    <div id="output">
+      <h3>Detected Emotion:</h3>
+      <p id="emotionResult">—</p>
+
+      <h3>Recommended Podcasts:</h3>
+      <ul id="recommendations"></ul>
+    </div>
+  </div>
+
+  <script>
+    async function getRecommendations() {
+      const input = document.getElementById('userInput').value;
+      const emotionRes = await fetch('/predict', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({text: input})
+      });
+      const emotionData = await emotionRes.json();
+      document.getElementById('emotionResult').innerText = emotionData.emotion || "No emotion detected";
+
+      const recRes = await fetch('/recommend', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({text: input})
+      });
+      const recData = await recRes.json();
+      const recList = document.getElementById('recommendations');
+      recList.innerHTML = "";
+      recData.recommendations.forEach(rec => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${rec.title}</strong>: ${rec.description}`;
+        recList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
