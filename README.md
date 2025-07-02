@@ -48,7 +48,7 @@ Media EARS revolutionizes content discovery by analyzing user emotions and deliv
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/media-ears-web3.git
+   git clone https://github.com/Baaqar-007/media-ears-web3.git
    cd media-ears-web3
    ```
 
