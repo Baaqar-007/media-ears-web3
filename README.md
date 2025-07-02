@@ -223,9 +223,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-- **Project Lead**: [Your Name](mailto:your.email@example.com)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/media-ears-web3/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/media-ears-web3/discussions)
+- **Project Lead**: [Baaqar Naqi](mailto:baaqarnaqi@gmail.com)
+- **Issues**: [GitHub Issues](https://github.com/Baaqar-007/media-ears-web3/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Baaqar-007/media-ears-web3/discussions)
 
 ---
 
