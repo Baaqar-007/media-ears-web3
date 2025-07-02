@@ -4,6 +4,56 @@
   <meta charset="UTF-8">
   <title>Media Ears - Emotion-Based Podcast Recommender</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 720px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 1rem;
+      padding: 10px;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 1.5rem;
+      background: #f1f1f1;
+      padding: 1rem;
+      border-radius: 6px;
+    }
+    .desc {
+      margin-top: 0.5rem;
+    }
+    .toggle {
+      color: #007bff;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -11,7 +61,6 @@
     <p>Type how you're feeling and get podcast recommendations!</p>
 
     <textarea id="userInput" placeholder="Describe your mood or what you're looking for..."></textarea>
-
     <button onclick="getRecommendations()">Get Recommendations</button>
 
     <div id="output">
@@ -24,8 +73,38 @@
   </div>
 
   <script>
+    function truncateText(text, limit = 200) {
+      if (text.length <= limit) return text;
+      return text.substring(0, limit) + "...";
+    }
+
+    function createRecommendationItem(rec) {
+      const li = document.createElement('li');
+      const fullDesc = rec.description;
+      const shortDesc = truncateText(fullDesc);
+
+      li.innerHTML = `
+        <strong>${rec.title}</strong>
+        <p class="desc" id="desc-${rec.title}">${shortDesc}</p>
+        <span class="toggle" onclick="toggleDescription(this, '${rec.title}', \`${fullDesc.replace(/`/g, "\\`")}\`)">Show More</span>
+      `;
+      return li;
+    }
+
+    function toggleDescription(element, title, fullText) {
+      const descEl = document.getElementById(`desc-${title}`);
+      if (element.innerText === "Show More") {
+        descEl.innerText = fullText;
+        element.innerText = "Show Less";
+      } else {
+        descEl.innerText = truncateText(fullText);
+        element.innerText = "Show More";
+      }
+    }
+
     async function getRecommendations() {
       const input = document.getElementById('userInput').value;
+
       const emotionRes = await fetch('/predict', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -43,9 +122,7 @@
       const recList = document.getElementById('recommendations');
       recList.innerHTML = "";
       recData.recommendations.forEach(rec => {
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${rec.title}</strong>: ${rec.description}`;
-        recList.appendChild(li);
+        recList.appendChild(createRecommendationItem(rec));
       });
     }
   </script>
